@@ -2,7 +2,7 @@
 PREFIX linkedmdb: <https://triplydb.com/Triply/linkedmdb/vocab/>
 PREFIX dcterms:<http://purl.org/dc/terms/>
 
-SELECT ?movieTitle ?filmRating WHERE {
+SELECT * WHERE {
   ?movie dcterms:title ?movieTitle.
   ?movie linkedmdb:genre ?genre.
   ?movie linkedmdb:rating ?filmRating.
@@ -197,8 +197,8 @@ PREFIX linkedmdb: <https://triplydb.com/Triply/linkedmdb/vocab/>
 PREFIX dcterms:<http://purl.org/dc/terms/>
 PREFIX dbo:<http://dbpedia.org/ontology/>
 PREFIX dbp:<http://dbpedia.org/property/>
-select * where {
-	?film dbo:director dbr:Charles_Jarrott.
+select ?filmBudget ?filmRating ?filmCountry where {
+    ?film dbo:director dbr:Charles_Jarrott.
     ?film dbp:budget ?filmBudget.
     ?film dbo:writer ?writer.
     ?film dbp:runtime ?filmRunTime.
@@ -206,14 +206,14 @@ select * where {
     ?film dbp:cinematography ?cineGraphy.
     ?film dbp:studio ?studio.
     ?film dbo:imdbId ?imdbID.
-	?film dbo:musicComposer ?musicComposer.
-	?movie dcterms:title ?filmName.
+    ?film dbo:musicComposer ?musicComposer.
+    ?movie dcterms:title ?filmName.
     ?movie linkedmdb:genre ?genre.
     ?movie linkedmdb:filmid ?filmID.
     ?movie linkedmdb:rating ?filmRating.
     ?movie linkedmdb:executive_producer ?executiveProd.
-  	?movie linkedmdb:country ?filmCountry.
-  	?movie foaf:based_near ?place.
+    ?movie linkedmdb:country ?filmCountry.
+    ?movie foaf:based_near ?place.
 }
 
 #Q11
@@ -373,7 +373,7 @@ PREFIX dcterms:<http://purl.org/dc/terms/>
 PREFIX dbo:<http://dbpedia.org/ontology/>
 PREFIX dbr:<http://dbpedia.org/resource/>
 
-SELECT ?actor ?movie ?movieTitle ?movieDate ?birthDate ?spouseName where {
+SELECT ?actor ?movieTitle ?movieDate ?birthDate ?spouseName where {
 	?actor rdfs:label ?actorname.
 	?actor dbo:birthDate ?birthDate.
 	?actor dbo:spouse ?spouseURI.
