@@ -1,0 +1,502 @@
+#Q1
+PREFIX linkedmdb: <https://triplydb.com/Triply/linkedmdb/vocab/>
+PREFIX dcterms:<http://purl.org/dc/terms/>
+
+SELECT ?movieTitle ?filmRating WHERE {
+  ?movie dcterms:title ?movieTitle.
+  ?movie linkedmdb:genre ?genre.
+  ?movie linkedmdb:rating ?filmRating.
+}
+
+#Q2
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+PREFIX ensembl: <http://rdf.ebi.ac.uk/resource/ensembl/>
+PREFIX oma: <http://omabrowser.org/ontology/oma#>
+PREFIX orth: <http://purl.org/net/orth#>
+PREFIX sio: <http://semanticscience.org/resource/>
+PREFIX taxon: <http://purl.uniprot.org/taxonomy/>
+PREFIX up: <http://purl.uniprot.org/core/>
+PREFIX void: <http://rdfs.org/ns/void#>
+PREFIX lscr: <http://purl.org/lscr#>
+
+select * where {
+?s a up:Taxon.
+?s up:scientificName ?v.
+?s up:rank up:Species.
+}
+
+
+#Q3
+PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#>
+PREFIX linkedmdb: <https://triplydb.com/Triply/linkedmdb/vocab/>
+PREFIX dcterms:<http://purl.org/dc/terms/>
+PREFIX dbo:<http://dbpedia.org/ontology/>
+PREFIX dbp:<http://dbpedia.org/property/>
+PREFIX dbr:<http://dbpedia.org/resource/>
+select  * where {
+    ?film dbo:director dbr:Charles_Jarrott.
+    ?film dbo:writer ?writer.
+    ?film dbp:runtime ?filmRunTime.
+    ?film rdfs:label ?filmName.
+    ?movie dcterms:title ?filmName.
+    ?movie linkedmdb:genre ?genre.
+}
+
+#Q4
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX geonames:<http://www.geonames.org/ontology#>
+PREFIX wgs: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+PREFIX tags:<http://www.holygoat.co.uk/owl/redwood/0.1/tags/>
+PREFIX mo:<http://purl.org/ontology/mo/>
+
+SELECT DISTINCT ?an ?lat ?long ?name ?population
+WHERE
+{ ?a  a mo:MusicArtist.
+  ?a  mo:biography ?bio
+  ?a  foaf:homepage ?hp
+  ?a  foaf:based_near ?place. 
+  ?a  foaf:name ?an.
+  ?a  foaf:made ?alb.
+  ?a  foaf:img ?image
+  ?alb tags:taggedWithTag <http://dbtune.org/jamendo/tag/punk>.
+  ?place   geonames:name ?name. 
+}
+
+#Q5
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX geonames:<http://www.geonames.org/ontology#>
+PREFIX wgs: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+PREFIX tags:<http://www.holygoat.co.uk/owl/redwood/0.1/tags/>
+PREFIX mo:<http://purl.org/ontology/mo/>
+
+SELECT DISTINCT ?an ?lat ?long ?name ?population
+WHERE
+{ ?a  a mo:MusicArtist.
+  ?a  mo:biography ?bio
+  ?a  foaf:based_near ?place. 
+  ?a  foaf:name ?an.
+  ?a  foaf:made ?alb.
+  ?alb tags:taggedWithTag <http://dbtune.org/jamendo/tag/punk>.
+  ?place   geonames:name ?name.
+  ?place   geonames:population ?population. 
+  ?place   geonames:locationMap ?location
+}
+
+#Q6
+PREFIX dbr: <http://dbpedia.org/resource/>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#>
+PREFIX linkedmdb: <https://triplydb.com/Triply/linkedmdb/vocab/>
+PREFIX dcterms:<http://purl.org/dc/terms/>
+PREFIX dbo:<http://dbpedia.org/ontology/>
+select  ?directorName ?birthPlaceURIName ?genreName  where {
+	?directorURI dbo:nationality dbr:United_Kingdom.
+	?directorURI rdfs:label ?directorName.
+	?directorURI dbo:spouse ?spouseURI.
+	?spouseURI dbo:birthPlace ?birthPlaceURI.
+	?birthPlaceURI rdfs:label ?birthPlaceURIName.
+	?film dbo:director ?directorURI.
+	?movie owl:sameAs ?film.
+    ?movie linkedmdb:genre ?genre.
+    ?genre linkedmdb:film_genre_name ?genreName.
+}
+
+#Q7
+PREFIX dbr: <http://dbpedia.org/resource/>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#>
+PREFIX linkedmdb: <https://triplydb.com/Triply/linkedmdb/vocab/>
+PREFIX dcterms:<http://purl.org/dc/terms/>
+PREFIX dbo:<http://dbpedia.org/ontology/>
+PREFIX dbp:<http://dbpedia.org/property/>
+select  * where {
+    ?film dbo:director dbr:Charles_Jarrott.
+    ?film dbp:budget ?filmBudget.
+    ?film dbo:writer ?writer.
+    ?film dbp:runtime ?filmRunTime.
+    ?film rdfs:label ?filmName.
+    ?movie dcterms:title ?filmName.
+    ?movie linkedmdb:genre ?genre.
+    ?movie linkedmdb:filmid ?filmID.
+    ?movie linkedmdb:rating ?filmRating.
+    ?movie linkedmdb:executive_producer ?executiveProd.
+}
+
+#Q8
+PREFIX	uniprot:	<http://purl.uniprot.org/uniprot/>
+PREFIX	void:	<http://rdfs.org/ns/void#>
+PREFIX	orthology:	<http://purl.org/net/orth#>
+PREFIX	mbgd:	<http://purl.jp/bio/11/mbgd#>
+PREFIX	mbgdr:	<http://mbgd.genome.ad.jp/rdf/resource/>
+PREFIX	rdfs:	<http://www.w3.org/2000/01/rdf-schema#>
+PREFIX	up:	<http://purl.uniprot.org/core/>
+PREFIX	updb:	<http://purl.uniprot.org/database/>
+
+SELECT	?uniprot	?xref
+WHERE	{
+	?group rdf:type orthology:OrthologsCluster.
+	?group orthology:hasHomologous ?x.
+	?x mbgd:gene ?y.
+	?y  mbgd:uniprot	uniprot:K9Z723 .
+	?group	orthology:hasHomologous	?a.
+	?a	mbgd:gene	?b.
+	?b	mbgd:uniprot	?uniprot.
+	?group	void:inDataset	mbgdr:default	.
+	?uniprot	rdfs:seeAlso	?xref.
+	?xref	up:database	updb:PDB	.
+}
+
+#Q9
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+PREFIX ensembl: <http://rdf.ebi.ac.uk/resource/ensembl/>
+PREFIX oma: <http://omabrowser.org/ontology/oma#>
+PREFIX orth: <http://purl.org/net/orth#>
+PREFIX sio: <http://semanticscience.org/resource/>
+PREFIX taxon: <http://purl.uniprot.org/taxonomy/>
+PREFIX up: <http://purl.uniprot.org/core/>
+PREFIX void: <http://rdfs.org/ns/void#>
+PREFIX lscr: <http://purl.org/lscr#>
+
+select ?protein2  ?Oma_link  ?Uniprot_link{
+?cluster a orth:ParalogsCluster.
+?cluster orth:hasHomologousMember ?node1.
+?cluster orth:hasHomologousMember ?node2.
+?node2 orth:hasHomologousMember* ?protein2.
+?node1 orth:hasHomologousMember* ?protein1.
+?protein1 a orth:Protein.
+?protein1 dct:identifier 'HUMAN00529'.
+?protein2 a orth:Protein. 
+?protein2  lscr:xrefUniprot ?Uniprot_link. 
+?protein2 rdfs:seeAlso ?Oma_link.
+filter(?node1 != ?node2)
+}
+
+#Q10
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX dbr: <http://dbpedia.org/resource/>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#>
+PREFIX linkedmdb: <https://triplydb.com/Triply/linkedmdb/vocab/>
+PREFIX dcterms:<http://purl.org/dc/terms/>
+PREFIX dbo:<http://dbpedia.org/ontology/>
+PREFIX dbp:<http://dbpedia.org/property/>
+select * where {
+	?film dbo:director dbr:Charles_Jarrott.
+    ?film dbp:budget ?filmBudget.
+    ?film dbo:writer ?writer.
+    ?film dbp:runtime ?filmRunTime.
+    ?film rdfs:label ?filmName.
+    ?film dbp:cinematography ?cineGraphy.
+    ?film dbp:studio ?studio.
+    ?film dbo:imdbId ?imdbID.
+	?film dbo:musicComposer ?musicComposer.
+	?movie dcterms:title ?filmName.
+    ?movie linkedmdb:genre ?genre.
+    ?movie linkedmdb:filmid ?filmID.
+    ?movie linkedmdb:rating ?filmRating.
+    ?movie linkedmdb:executive_producer ?executiveProd.
+  	?movie linkedmdb:country ?filmCountry.
+  	?movie foaf:based_near ?place.
+}
+
+#Q11
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+PREFIX ensembl: <http://rdf.ebi.ac.uk/resource/ensembl/>
+PREFIX oma: <http://omabrowser.org/ontology/oma#>
+PREFIX orth: <http://purl.org/net/orth#>
+PREFIX sio: <http://semanticscience.org/resource/>
+PREFIX taxon: <http://purl.uniprot.org/taxonomy/>
+PREFIX up: <http://purl.uniprot.org/core/>
+PREFIX void: <http://rdfs.org/ns/void#>
+PREFIX lscr: <http://purl.org/lscr#>
+
+select distinct ?MOUSE_PROTEIN ?RABIT_PROTEIN ?MOUSE_UNIPROT_XREF ?RABIT_UNIPROT_XREF 
+where {
+?cluster a orth:OrthologsCluster.
+?cluster orth:hasHomologousMember ?node1.
+?cluster orth:hasHomologousMember ?node2. 
+?node2 orth:hasHomologousMember* ?RABIT_PROTEIN. 
+?node1 orth:hasHomologousMember* ?MOUSE_PROTEIN.
+?MOUSE_PROTEIN a orth:Protein.
+?MOUSE_PROTEIN  orth:organism/obo:RO_0002162/up:scientificName 'Mus musculus';
+rdfs:label 'HBB-Y';
+lscr:xrefUniprot ?MOUSE_UNIPROT_XREF.
+?RABIT_PROTEIN a orth:Protein.
+?RABIT_PROTEIN orth:organism/obo:RO_0002162/up:scientificName 'Oryctolagus cuniculus' .
+?RABIT_PROTEIN lscr:xrefUniprot ?RABIT_UNIPROT_XREF.
+filter(?node1 != ?node2)}	
+
+
+#Q12
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX void: <http://rdfs.org/ns/void#>
+PREFIX sio: <http://semanticscience.org/resource/>
+PREFIX so: <http://purl.obolibrary.org/obo/SO_>
+PREFIX ncit: <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#>
+PREFIX up: <http://purl.uniprot.org/core/>
+PREFIX dcat: <http://www.w3.org/ns/dcat#>
+PREFIX dctypes: <http://purl.org/dc/dcmitype/>
+PREFIX wi: <http://http://purl.org/ontology/wi/core#>
+PREFIX eco: <http://http://purl.obolibrary.org/obo/eco.owl#>
+PREFIX prov: <http://http://http://www.w3.org/ns/prov#>
+PREFIX pav: <http://http://http://purl.org/pav/>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+PREFIX geno: <http://purl.obolibrary.org/obo/GENO_>
+PREFIX dto: <http://diseasetargetontology.org/dto/>
+
+SELECT * WHERE {
+  ?vda sio:SIO_000628 ?variant,?disease;
+    sio:SIO_000216 ?scoreIRI .
+        ?scoreIRI sio:SIO_000300 ?score .
+        ?disease a ncit:C7057 .
+  ?disease dcterms:title ?diseaseTitle .
+  ?variant a ?type .
+  ?variant dcterms:title ?variantTitle .
+  ?variant sio:SIO_000216 ?spe,?pleio .
+    ?spe a sio:SIO_001351 ;
+    sio:SIO_000300 ?speValue .
+  ?pleio a sio:SIO_001352 ;
+    sio:SIO_000300 ?pleioValue .
+  ?variant sio:SIO_000061 ?chr .
+  ?chr sio:SIO_000300 ?chrValue .
+  ?pos sio:SIO_000300 ?posValue .
+  ?variant sio:SIO_000791 ?pos .
+  ?variant sio:SIO_000223 ?ref,?alt .
+  ?ref a geno:0000152 ;
+    sio:SIO_000300 ?refValue .
+  ?alt a geno:0000476 ;
+    sio:SIO_000300 ?altValue .
+    }
+
+
+#Q13
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+PREFIX ensembl: <http://rdf.ebi.ac.uk/resource/ensembl/>
+PREFIX oma: <http://omabrowser.org/ontology/oma#>
+PREFIX orth: <http://purl.org/net/orth#>
+PREFIX sio: <http://semanticscience.org/resource/>
+PREFIX taxon: <http://purl.uniprot.org/taxonomy/>
+PREFIX up: <http://purl.uniprot.org/core/>
+PREFIX void: <http://rdfs.org/ns/void#>
+PREFIX lscr: <http://purl.org/lscr#>
+
+select ?protein ?OMA_link
+where {
+?protein a orth:Protein.
+?protein  orth:organism ?organism.
+?inTaxon rdfs:label 'in taxon'@en.
+?organism ?inTaxon ?taxon.
+?taxon  up:scientificName 'Rattus norvegicus'.
+?protein rdfs:seeAlso ?OMA_link.
+}
+
+# Q14
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+PREFIX ensembl: <http://rdf.ebi.ac.uk/resource/ensembl/>
+PREFIX oma: <http://omabrowser.org/ontology/oma#>
+PREFIX orth: <http://purl.org/net/orth#>
+PREFIX sio: <http://semanticscience.org/resource/>
+PREFIX taxon: <http://purl.uniprot.org/taxonomy/>
+PREFIX up: <http://purl.uniprot.org/core/>
+PREFIX void: <http://rdfs.org/ns/void#>
+PREFIX lscr: <http://purl.org/lscr#>
+
+select ?protein1    ?protein2  ?geneName2  ?species2 ?OMA_LINK2 ?Prot2_uniprot ?prot2_ensemblGeneId  
+where {
+?cluster a orth:OrthologsCluster.
+?cluster orth:hasHomologousMember ?node1.
+?cluster orth:hasHomologousMember ?node2. 
+?node2 orth:hasHomologousMember* ?protein2. 
+?node1 orth:hasHomologousMember* ?protein1.
+?protein1 a orth:Protein;
+orth:organism/obo:RO_0002162/up:scientificName 'Oryctolagus cuniculus';
+rdfs:label 'APOCI'.
+?protein2 a orth:Protein; 
+rdfs:seeAlso ?OMA_LINK2;
+lscr:xrefUniprot ?Prot2_uniprot;
+sio:SIO_010079/lscr:xrefEnsemblGene/dct:identifier  ?prot2_ensemblGeneId;
+rdfs:label ?geneName2;
+orth:organism/obo:RO_0002162/up:scientificName ?species2.
+filter(?node1 != ?node2)}
+
+
+#Q15
+
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX linkedmdb: <https://triplydb.com/Triply/linkedmdb/vocab/>
+PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#>
+PREFIX dcterms:<http://purl.org/dc/terms/>
+PREFIX dbo:<http://dbpedia.org/ontology/>
+PREFIX dbr:<http://dbpedia.org/resource/>
+
+SELECT ?actor ?movie ?movieTitle ?movieDate ?birthDate ?spouseName where {
+	?actor rdfs:label ?actorname.
+	?actor dbo:birthDate ?birthDate.
+	?actor dbo:spouse ?spouseURI.
+	?spouseURI rdfs:label ?spouseName.
+	?imdbactor linkedmdb:actor_name ?actorname.
+	?movie linkedmdb:actor_actorid ?imdbactor.
+	?movie dcterms:title ?movieTitle.
+	?movie dcterms:date ?movieDate.
+}
+
+# Q16
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX geonames:<http://www.geonames.org/ontology#>
+
+SELECT * where {
+	?artist foaf:name ?name .
+	?artist foaf:based_near ?location .
+	?location geonames:parentFeature ?germany .
+	?germany geonames:name 'Zwingen'
+}
+
+# Q17
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX void: <http://rdfs.org/ns/void#>
+PREFIX sio: <http://semanticscience.org/resource/>
+PREFIX so: <http://purl.obolibrary.org/obo/SO_>
+PREFIX ncit: <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#>
+PREFIX up: <http://purl.uniprot.org/core/>
+PREFIX dcat: <http://www.w3.org/ns/dcat#>
+PREFIX dctypes: <http://purl.org/dc/dcmitype/>
+PREFIX wi: <http://http://purl.org/ontology/wi/core#>
+PREFIX eco: <http://http://purl.obolibrary.org/obo/eco.owl#>
+PREFIX prov: <http://http://http://www.w3.org/ns/prov#>
+PREFIX pav: <http://http://http://purl.org/pav/>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+PREFIX dto: <http://diseasetargetontology.org/dto/>
+PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+PREFIX p: <http://dbpedia.org/property/>
+PREFIX cco: <http://rdf.ebi.ac.uk/terms/chembl#>
+PREFIX taxon: <http://purl.uniprot.org/taxonomy/>
+
+SELECT ?name ?text
+WHERE
+{
+        ?protein a up:Protein . 
+        ?protein up:organism taxon:9606 .
+        ?protein up:encodedBy ?gene . 
+        ?gene skos:prefLabel ?name .
+        ?protein up:annotation ?annotation .
+        ?annotation a up:Disease_Annotation .
+        ?annotation rdfs:comment ?text.
+}
+
+# Q18
+PREFIX dbr: <http://dbpedia.org/resource/>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#>
+PREFIX linkedmdb: <https://triplydb.com/Triply/linkedmdb/vocab/>
+PREFIX dcterms:<http://purl.org/dc/terms/>
+PREFIX dbo:<http://dbpedia.org/ontology/>
+
+select ?director ?genreName where{
+	?director dbo:nationality dbr:France.
+	?film dbo:director ?director.
+	?movie owl:sameAs ?film.
+	?movie linkedmdb:genre ?genre.
+	?genre linkedmdb:film_genre_name ?genreName.
+}
+
+# Q19
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX void: <http://rdfs.org/ns/void#>
+PREFIX sio: <http://semanticscience.org/resource/>
+PREFIX so: <http://www.sequenceontology.org/miso/current_svn/term/SO:>
+PREFIX ncit: <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#>
+PREFIX up: <http://purl.uniprot.org/core/>
+PREFIX dcat: <http://www.w3.org/ns/dcat#>
+PREFIX dctypes: <http://purl.org/dc/dcmitype/>
+PREFIX wi: <http://http://purl.org/ontology/wi/core#>
+PREFIX eco: <http://http://purl.obolibrary.org/obo/eco.owl#>
+PREFIX prov: <http://http://http://www.w3.org/ns/prov#>
+PREFIX pav: <http://http://http://purl.org/pav/>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+
+SELECT ?gda ?gene ?geneSymbol ?disease ?diseaseName
+  WHERE {
+    ?gda sio:SIO_000628 ?gene.
+    ?gda sio:SIO_000628 ?disease .
+    ?gene rdf:type ncit:C16612 .
+    ?gene sio:SIO_000205XX ?symbolUri .
+    ?symbolUri dcterms:title ?geneSymbol .
+    ?disease rdf:type ncit:C7057.
+    ?disease dcterms:title ?diseaseName.
+  }
+  
+# Q20
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX mbgdr: <http://mbgd.genome.ad.jp/rdf/resource/>
+PREFIX void: <http://rdfs.org/ns/void#>
+PREFIX mbgd: <http://purl.jp/bio/11/mbgd#>
+PREFIX orthology: <http://purl.org/net/orth#>
+PREFIX dct: <http://purl.org/dc/terms/>
+
+SELECT ?cluster ?cluster_label ?cluster_descr (COUNT(DISTINCT ?org) AS ?organism_count)
+WHERE {
+    ?cluster a orthology:OrthologsCluster ;
+          void:inDataset mbgdr:default ;
+          dct:identifier "3927";
+          rdfs:label ?cluster_label ;
+          dct:description ?cluster_descr ;
+          orthology:hasHomologousMember+ ?member .
+    ?member mbgd:organism ?org .
+}  
