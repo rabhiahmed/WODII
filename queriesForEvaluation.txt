@@ -56,15 +56,14 @@ PREFIX wgs: <http://www.w3.org/2003/01/geo/wgs84_pos#>
 PREFIX tags:<http://www.holygoat.co.uk/owl/redwood/0.1/tags/>
 PREFIX mo:<http://purl.org/ontology/mo/>
 
-SELECT DISTINCT ?name ?bio ?an
-WHERE
+SELECT DISTINCT ?name ?bio ?an WHERE
 { ?a  a mo:MusicArtist.
-  ?a  mo:biography ?bio
-  ?a  foaf:homepage ?hp
+  ?a  mo:biography ?bio.
+  ?a  foaf:homepage ?hp.
   ?a  foaf:based_near ?place. 
   ?a  foaf:name ?an.
   ?a  foaf:made ?alb.
-  ?a  foaf:img ?image
+  ?a  foaf:img ?image.
   ?alb tags:taggedWithTag <http://dbtune.org/jamendo/tag/punk>.
   ?place   geonames:name ?name. 
 }
@@ -76,10 +75,10 @@ PREFIX wgs: <http://www.w3.org/2003/01/geo/wgs84_pos#>
 PREFIX tags:<http://www.holygoat.co.uk/owl/redwood/0.1/tags/>
 PREFIX mo:<http://purl.org/ontology/mo/>
 
-SELECT DISTINCT ?an ?lat ?long ?name ?population
+SELECT DISTINCT ?an ?location ?population
 WHERE
 { ?a  a mo:MusicArtist.
-  ?a  mo:biography ?bio
+  ?a  mo:biography ?bio.
   ?a  foaf:based_near ?place. 
   ?a  foaf:name ?an.
   ?a  foaf:made ?alb.
